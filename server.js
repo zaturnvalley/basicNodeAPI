@@ -22,11 +22,23 @@ app.use(bodyParser.json());
 // Use public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-MongoClient.connect(db.url, (err, database) => {
-  if (err) return console.log(err);
-  
-  require('./app/routes')(app, database);
-  app.listen(port, () => {
-    console.log("We are live on " + port);
-  });
+app.get('/', (req, res) => {
+  res.send('Page');
 });
+
+app.listen(port, () => {
+  console.log('works');
+});
+
+// Connect mongoose to db
+const config = require('./config/db');
+mongoose.connect(config.database);
+
+// MongoClient.connect(db.url, (err, database) => {
+//   if (err) return console.log(err);
+  
+//   require('./app/routes')(app, database);
+//   app.listen(port, () => {
+//     console.log("We are live on " + port);
+//   });
+// });
