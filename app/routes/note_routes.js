@@ -37,8 +37,24 @@ module.exports = function(app, db) {
       if (err) {
         res.send({ 'error': err })
       } else {
-        res.send('Note' + id + ' deleted');
+        res.send('The note with the id "' + id + '" was deleted.');
       }
     })
   });
+
+  // Update Route
+  app.put('/notes/:id', (req, res) => {
+    const id = req.params.id;
+    const details = { '_id' : new ObjectID(id) };
+    const note = { text: req.body.body, title: req.body.title };
+
+    db.collection('notes').update(details, note, (err, item) => {
+      if (err) {
+        res.send({ 'error': err });
+      } else {
+        res.send(item);
+      }
+    })
+
+  })
 }
