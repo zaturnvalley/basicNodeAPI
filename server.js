@@ -1,13 +1,26 @@
+// Dependencies
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
+const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
 const db = require('./config/db');
 
+// App Variable
 const app = express();
 
+// Port
 const port = 8000;
 
+// Cors Middleware
+app.use(cors());
+
+// Body parsing using json and urlencoding
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Use public folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 MongoClient.connect(db.url, (err, database) => {
   if (err) return console.log(err);
