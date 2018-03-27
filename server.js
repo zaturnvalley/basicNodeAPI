@@ -5,12 +5,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const db = require('./config/db');
+const config = require('./config/db');
+const bucketlist = require('./controller/bucketlist');
 
-// App Variable
-const app = express();
+// Connect mongoose to db
+mongoose.connect(config.database);
 
 // Port
 const port = 8000;
+
+// App Variable
+const app = express();
 
 // Cors Middleware
 app.use(cors());
@@ -26,13 +31,12 @@ app.get('/', (req, res) => {
   res.send('Page');
 });
 
+app.use('/bucketlist', bucketlist);
+
+// Listen
 app.listen(port, () => {
   console.log('works');
 });
-
-// Connect mongoose to db
-const config = require('./config/db');
-mongoose.connect(config.database);
 
 // MongoClient.connect(db.url, (err, database) => {
 //   if (err) return console.log(err);
