@@ -14,3 +14,14 @@ const BucketlistSchema = mongoose.Schema({
     enum: ['High', 'Medium', 'Low']
   }
 });
+
+const BucketList = module.exports = mongoose.model('BucketList', BucketlistSchema);
+
+module.exports.getAllLists = (callback) => {
+  BucketList.find(callback);
+}
+
+module.exports.deleteListById = (id, callback) => {
+  let query = {_id: id};
+  BucketList.remove(query, callback);
+}
